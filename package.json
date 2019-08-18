@@ -4,6 +4,7 @@
   "description": "Generic email plugin with useful exports to some email-sending services",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "jest"
   },
   "repository": {
@@ -23,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/kbanach/generic-email/issues"
   },
-  "homepage": "https://github.com/kbanach/generic-email#readme"
+  "homepage": "https://github.com/kbanach/generic-email#readme",
+  "devDependencies": {
+    "jest": "^24.9.0"
+  }
 }

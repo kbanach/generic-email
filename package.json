@@ -1,0 +1,27 @@
+{
+  "name": "generic-email",
+  "version": "0.1.0",
+  "description": "Generic email plugin with useful exports to some email-sending services",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kbanach/generic-email.git"
+  },
+  "keywords": [
+    "email",
+    "class",
+    "generic",
+    "nodejs",
+    "email",
+    "mailjet"
+  ],
+  "author": "Krystian Banach (banach.krystian+githubfaq@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kbanach/generic-email/issues"
+  },
+  "homepage": "https://github.com/kbanach/generic-email#readme"
+}

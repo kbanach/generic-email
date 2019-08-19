@@ -81,8 +81,9 @@ describe('email attachment class', () => {
         });
 
         describe('when used with valid input should', () => {
+            const VALID_INPUT = 'text/plain';
+
             test('return same value with getter', () => {
-                const VALID_INPUT = 'text/plain';
                 const emailAtt = new EmailAttachment();
 
                 emailAtt.setMimeType(VALID_INPUT);
@@ -91,7 +92,6 @@ describe('email attachment class', () => {
             });
 
             test('be chainable', () => {
-                const VALID_INPUT = 'text/plain';
                 const emailAtt = new EmailAttachment();
 
                 expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
@@ -156,10 +156,10 @@ describe('email attachment class', () => {
             });
 
             test('be chainable', () => {
-                const VALID_INPUT = 'text/plain';
+                const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8');
                 const emailAtt = new EmailAttachment();
 
-                expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
+                expect(emailAtt.setContent(VALID_INPUT)).toEqual(emailAtt);
             });
 
         });

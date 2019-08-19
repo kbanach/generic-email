@@ -19,168 +19,190 @@ describe('email attachment class', () => {
         });
     });
 
-    describe('has method setFilename', () => {    
-        test('exposed', () => {
+    describe('has method setFilename, which', () => {
+        test('is exposed', () => {
             const emailAtt = new EmailAttachment();
 
             expect(typeof emailAtt.setFilename).toBe('function');
         });
 
-        test('when used with valid input should return same value with getter', () => {
-            const VALID_INPUT = 'FILENAME.txt';
-            const emailAtt = new EmailAttachment();
+        describe('when used with valid input should', () => {
+            test('return the same value with getter', () => {
+                const VALID_INPUT = 'FILENAME.txt';
+                const emailAtt = new EmailAttachment();
 
-            emailAtt.setFilename(VALID_INPUT);
+                emailAtt.setFilename(VALID_INPUT);
 
-            expect(emailAtt.getFilename()).toEqual(VALID_INPUT);
+                expect(emailAtt.getFilename()).toEqual(VALID_INPUT);
+            });
+
+            test('be chainable', () => {
+                const VALID_INPUT = 'text/plain';
+                const emailAtt = new EmailAttachment();
+
+                expect(emailAtt.setFilename(VALID_INPUT)).toEqual(emailAtt);
+            });
         });
 
-        test('when used with valid input should be chainable', () => {
-            const VALID_INPUT = 'text/plain';
-            const emailAtt = new EmailAttachment();
+        describe('should throw an error', () => {
+            test('with keyword "empty" when called without parameters', () => {
+                const emailAtt = new EmailAttachment();
 
-            expect(emailAtt.setFilename(VALID_INPUT)).toEqual(emailAtt);
+                expect(() => {
+                    emailAtt.setFilename();
+                }).toThrow(/empty/ig);
+            });
+
+            test('with keyword "string" when called with not a string', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setFilename({});
+                }).toThrow(/string/ig);
+            });
+
+            test('with keyword "whitespaces" when called with empty string', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setFilename(' ');
+                }).toThrow(/whitespaces/ig);
+            });
         });
 
-        test('which called without parameters should throw an error with keyword "empty"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setFilename();
-            }).toThrow(/empty/ig);
-        });
-
-        test('which called with not a string should throw an error with keyword "string"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setFilename({});
-            }).toThrow(/string/ig);
-        });
-
-        test('which called with empty string should throw an error with keyword "whitespaces"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setFilename(' ');
-            }).toThrow(/whitespaces/ig);
-        });
 
     });
 
-    describe('has method setMimeType', () => {    
+    describe('has method setMimeType, which', () => {
         test('exposed', () => {
             const emailAtt = new EmailAttachment();
 
             expect(typeof emailAtt.setMimeType).toBe('function');
         });
 
-        test('when used with valid input should return same value with getter', () => {
-            const VALID_INPUT = 'text/plain';
-            const emailAtt = new EmailAttachment();
+        describe('when used with valid input should', () => {
+            test('return same value with getter', () => {
+                const VALID_INPUT = 'text/plain';
+                const emailAtt = new EmailAttachment();
 
-            emailAtt.setMimeType(VALID_INPUT);
+                emailAtt.setMimeType(VALID_INPUT);
 
-            expect(emailAtt.getMimeType()).toEqual(VALID_INPUT);
+                expect(emailAtt.getMimeType()).toEqual(VALID_INPUT);
+            });
+
+            test('be chainable', () => {
+                const VALID_INPUT = 'text/plain';
+                const emailAtt = new EmailAttachment();
+
+                expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
+            });
         });
 
-        test('when used with valid input should be chainable', () => {
-            const VALID_INPUT = 'text/plain';
-            const emailAtt = new EmailAttachment();
 
-            expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
+        describe('should throw an error', () => {
+            test('with keyword "empty" when called without parameters', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setMimeType();
+                }).toThrow(/empty/ig);
+            });
+
+            test('with keyword "string" when called with not a string', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setMimeType({});
+                }).toThrow(/string/ig);
+            });
+
+            test('with keyword "whitespaces" when called with empty string', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setMimeType(' ');
+                }).toThrow(/whitespaces/ig);
+            });
         });
 
-        test('which called without parameters should throw an error with keyword "empty"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setMimeType();
-            }).toThrow(/empty/ig);
-        });
-
-        test('which called with not a string should throw an error with keyword "string"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setMimeType({});
-            }).toThrow(/string/ig);
-        });
-
-        test('which called with empty string should throw an error with keyword "whitespaces"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setMimeType(' ');
-            }).toThrow(/whitespaces/ig);
-        });
 
     });
 
-    describe('has method setContent', () => {
+    describe('has method setContent, which', () => {
         test('exposed', () => {
             const emailAtt = new EmailAttachment();
 
             expect(typeof emailAtt.setContent).toBe('function');
         });
 
-        test('when used with valid input should return same value with default getter', () => {
-            const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8');
-            const emailAtt = new EmailAttachment();
 
-            emailAtt.setContent(VALID_INPUT);
+        describe('when used with valid input should', () => {
+            test('return same value with default getter', () => {
+                const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8');
+                const emailAtt = new EmailAttachment();
 
-            expect(emailAtt.getContent()).toEqual(VALID_INPUT);
+                emailAtt.setContent(VALID_INPUT);
+
+                expect(emailAtt.getContent()).toEqual(VALID_INPUT);
+            });
+
+            test('return buffer when passed base64 input', () => {
+                const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8').toString('base64');
+                const emailAtt = new EmailAttachment();
+
+                emailAtt.setContent(VALID_INPUT);
+
+                expect(Buffer.isBuffer(emailAtt.getContent())).toBe(true);
+            });
+
+            test('be chainable', () => {
+                const VALID_INPUT = 'text/plain';
+                const emailAtt = new EmailAttachment();
+
+                expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
+            });
+
         });
 
-        test('when used with valid base64 input should return buffer', () => {
-            const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8').toString('base64');
-            const emailAtt = new EmailAttachment();
 
-            emailAtt.setContent(VALID_INPUT);
+        describe('should throw an error', () => {
+            test('with keyword "empty" when called without parameters ', () => {
+                const emailAtt = new EmailAttachment();
 
-            expect(Buffer.isBuffer(emailAtt.getContent())).toBe(true);
+                expect(() => {
+                    emailAtt.setContent();
+                }).toThrow(/empty/ig);
+            });
+
+
+            test('with keyword "ivalid base64" when passed string is not a valid base64', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setContent('LOREM IPSUM');
+                }).toThrow(/ivalid base64/ig);
+            });
         });
 
-        test('when used with valid input should be chainable', () => {
-            const VALID_INPUT = 'text/plain';
-            const emailAtt = new EmailAttachment();
 
-            expect(emailAtt.setMimeType(VALID_INPUT)).toEqual(emailAtt);
+        describe('should not throw', () => {
+            test('when called with a Buffer', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setContent(Buffer.from('LOREM IPSUM', 'utf-8'));
+                }).not.toThrow();
+            });
+
+            test('when called with a base64 string', () => {
+                const emailAtt = new EmailAttachment();
+
+                expect(() => {
+                    emailAtt.setContent(Buffer.from('LOREM IPSUM', 'utf-8').toString('base64'));
+                }).not.toThrow();
+            });
         });
 
-        test('which called without parameters should throw an error with keyword "empty"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setContent();
-            }).toThrow(/empty/ig);
-        });
-
-        test('which is able to handle buffer', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setContent(Buffer.from('LOREM IPSUM', 'utf-8'));
-            }).not.toThrow();
-        });
-        
-        test('which is able to handle base64 string', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setContent(Buffer.from('LOREM IPSUM', 'utf-8').toString('base64'));
-            }).not.toThrow();
-        });
-
-        test('which will throw when passed string is not a valid base64 with keyword "valid base64"', () => {
-            const emailAtt = new EmailAttachment();
-
-            expect(() => {
-                emailAtt.setContent('LOREM IPSUM');
-            }).toThrow(/valid base64/ig);
-        });
-        
     });
 
     describe('has method getContentFormattedAs', () => {
@@ -190,7 +212,9 @@ describe('email attachment class', () => {
 
             emailAtt.setContent(VALID_INPUT);
 
-            expect(Buffer.isBuffer(emailAtt.getContentFormattedAs())).toBe(true);
+            expect(
+                Buffer.isBuffer(emailAtt.getContentFormattedAs())
+            ).toBe(true);
         });
 
         test('which returns base64 string when this formatter is passed as parameter', () => {

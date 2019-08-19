@@ -101,7 +101,7 @@ class EmailAttachment {
 
     // is base64 valid
     if (contentAsBuffer.toString('base64') !== contentAsBase64) {
-      throw new Error('Content is not a valid base64 string');
+      throw new Error('Content is an ivalid base64 string');
     }
 
     this._setContentFromBuffer(contentAsBuffer);

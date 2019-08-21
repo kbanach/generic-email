@@ -1,16 +1,16 @@
 const { shouldThrowWithKeywordWhen } = require('./testHelpers');
 
-const Email = require('../src/Email');
+const EmailEnvelope = require('../src/EmailEnvelope');
 
 
-describe('email class', () => {
+describe('email envelope class', () => {
   test('can be used with "new" keyword', () => {
-    expect(() => { new Email() }).not.toThrow();
+    expect(() => { new EmailEnvelope() }).not.toThrow();
   });
 
   describe('has method addRecipient which', () => {
     test('is exposed', () => {
-      const email = new Email();
+      const email = new EmailEnvelope();
 
       expect(typeof email.addRecipient).toBe('function');
     });
@@ -19,17 +19,17 @@ describe('email class', () => {
       const VALID_INPUT = 'a@a.com';
 
       test('return same value with getter (as first element of list)', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         email.addRecipient(VALID_INPUT);
 
         expect(
-          email.getRecipients()[0]
-        ).toEqual(VALID_INPUT);
+          email.getRecipients()
+        ).toEqual(expect.arrayContaining([ VALID_INPUT ]));
       });
 
       test('be chainable', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         expect(email.addRecipient(VALID_INPUT)).toEqual(email);
       });
@@ -37,7 +37,7 @@ describe('email class', () => {
 
     describe('in case of an edge case, like', () => {
       test('adding twice the same address, should add it only once', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         email.addRecipient('a@a.com');
         email.addRecipient('a@a.com');
@@ -47,7 +47,7 @@ describe('email class', () => {
     });
 
     describe('should throw an error', () => {
-      const email = new Email();
+      const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
             email.addRecipient();
@@ -71,7 +71,7 @@ describe('email class', () => {
       const VALID_INPUT = 'test';
 
       test('return same value with getter', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         email.setSubject(VALID_INPUT);
 
@@ -81,14 +81,14 @@ describe('email class', () => {
       });
 
       test('be chainable', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         expect(email.setSubject(VALID_INPUT)).toEqual(email);
       });
     });
 
     describe('should throw an error', () => {
-      const email = new Email();
+      const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
             email.setSubject();
@@ -105,14 +105,13 @@ describe('email class', () => {
     });
   });
 
-
   describe('has method setSenderEmail which', () => {
 
     describe('when used with valid input should', () => {
       const VALID_INPUT = 'a@a.com';
 
       test('return same value with getter', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         email.setSenderEmail(VALID_INPUT);
 
@@ -122,14 +121,14 @@ describe('email class', () => {
       });
 
       test('be chainable', () => {
-        const email = new Email();
+        const email = new EmailEnvelope();
 
         expect(email.setSenderEmail(VALID_INPUT)).toEqual(email);
       });
     });
 
     describe('should throw an error', () => {
-      const email = new Email();
+      const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
             email.setSenderEmail();
@@ -146,7 +145,47 @@ describe('email class', () => {
 
       shouldThrowWithKeywordWhen(() => {
         email.setSenderEmail('a@a');
-      }, 'invalid', 'when called with invalid email');
+      }, 'invalid email address', 'when called with invalid email');
+
+    });
+  });
+
+  describe('has method setSenderLongName which', () => {
+
+    describe('when used with valid input should', () => {
+      const VALID_INPUT = 'Test Test';
+
+      test('return same value with getter', () => {
+        const email = new EmailEnvelope();
+
+        email.setSenderLongName(VALID_INPUT);
+
+        expect(
+          email.getSenderLongName()
+        ).toEqual(VALID_INPUT);
+      });
+
+      test('be chainable', () => {
+        const email = new EmailEnvelope();
+
+        expect(email.setSenderLongName(VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe('should throw an error', () => {
+      const email = new EmailEnvelope();
+
+      shouldThrowWithKeywordWhen(() => {
+            email.setSenderLongName();
+      }, 'empty', 'when called without parameters');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setSenderLongName({});
+      }, 'string', 'when called with not a string');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setSenderLongName(' ');
+      }, 'whitespaces', 'when called with empty string');
 
     });
   });

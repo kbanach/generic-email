@@ -1,15 +1,18 @@
 const emailValidator = require('email-validator');
 
-class Email {
+const { throwWhenUnemptyString } = require('./helpers');
+
+class EmailEnvelope {
 
   constructor() {
     this._recipients = new Set();
 
     this._subject = '';
+    this._senderLongName = '';
   }
 
   addRecipient(recipient) {
-    this._throwWhenUnemptyString(recipient, 'Recipient email');
+    throwWhenUnemptyString(recipient, 'Recipient');
 
     this._recipients.add(recipient);
 
@@ -21,7 +24,7 @@ class Email {
   }
 
   setSubject(subject) {
-    this._throwWhenUnemptyString(subject, 'Email subject');
+    throwWhenUnemptyString(subject, 'Email subject');
 
     this._subject = subject;
 
@@ -33,10 +36,10 @@ class Email {
   }
 
   setSenderEmail(senderEmail) {
-    this._throwWhenUnemptyString(senderEmail, 'Sender email');
+    throwWhenUnemptyString(senderEmail, 'Sender email');
 
     if (!emailValidator.validate(senderEmail)) {
-      throw new Error('Sender email invalid');
+      throw new Error('Sender email is invalid email address');
     }
 
     this._senderEmail = senderEmail;
@@ -48,21 +51,18 @@ class Email {
     return this._senderEmail;
   }
 
-  _throwWhenUnemptyString(str, msgPrefix) {
-    if (!str) {
-      throw new Error(`${msgPrefix} can not be empty`);
-    }
+  setSenderLongName(senderLongName) {
+    throwWhenUnemptyString(senderLongName);
 
-    if (typeof str !== 'string') {
-      throw new Error(`${msgPrefix} has to be a string`);
-    }
+    this._senderLongName = senderLongName;
 
-    if (!str.trim()) {
-      throw new Error(`${msgPrefix} can not be whitespaces only`);
-    }
-
-    return;
+    return this;
   }
+
+  getSenderLongName() {
+    return this._senderLongName;
+  }
+
 }
 
-module.exports = Email;
+module.exports = EmailEnvelope;

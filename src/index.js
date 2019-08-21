@@ -1,7 +1,9 @@
-const Email = require('./Email');
+const EmailEnvelope = require('./EmailEnvelope');
+const EmailAddress = require('./EmailAddress');
 const EmailAttachment = require('./EmailAttachment');
 
 module.exports = {
-  Email,
+  EmailEnvelope,
+  EmailAddress,
   EmailAttachment,
 };

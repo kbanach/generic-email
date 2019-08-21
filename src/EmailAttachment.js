@@ -1,3 +1,6 @@
+const { throwWhenUnemptyString } = require('./helpers');
+
+
 const CONTENT_TYPES = {
   BASE64: 'base64',
   BUFFER: 'buffer',
@@ -15,7 +18,7 @@ class EmailAttachment {
   }
 
   setFilename(filename) {
-    this._throwWhenUnemptyString(filename, 'Filename');
+    throwWhenUnemptyString(filename, 'Filename');
 
     this._filename = filename;
 
@@ -27,7 +30,7 @@ class EmailAttachment {
   }
 
   setMimeType(mimeType) {
-    this._throwWhenUnemptyString(mimeType, 'Mime type');
+    throwWhenUnemptyString(mimeType, 'Mime type');
 
     this._mime = mimeType;
 
@@ -72,21 +75,6 @@ class EmailAttachment {
     throw new Error('Unknown type passed to content getter as formatter');
   }
 
-  _throwWhenUnemptyString(str, msgPrefix) {
-    if (!str) {
-      throw new Error(`${msgPrefix} can not be empty`);
-    }
-
-    if (typeof str !== 'string') {
-      throw new Error(`${msgPrefix} has to be a string`);
-    }
-
-    if (!str.trim()) {
-      throw new Error(`${msgPrefix} can not be whitespaces only`);
-    }
-
-    return;
-  }
 
   _setContentFromBuffer(contentAsBuffer) {
     this._content = contentAsBuffer;

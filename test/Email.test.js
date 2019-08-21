@@ -1,4 +1,7 @@
+const { shouldThrowWithKeywordWhen } = require('./testHelpers');
+
 const Email = require('../src/Email');
+
 
 describe('email class', () => {
   test('can be used with "new" keyword', () => {
@@ -44,30 +47,22 @@ describe('email class', () => {
     });
 
     describe('should throw an error', () => {
-      test('with keyword "empty" when called without parameters', () => {
-        const email = new Email();
+      const email = new Email();
 
-        expect(() => {
-          email.addRecipient();
-        }).toThrow(/empty/ig);
-      });
+      shouldThrowWithKeywordWhen(() => {
+            email.addRecipient();
+      }, 'empty', 'when called without parameters');
 
-      test('with keyword "string" when called with not a string', () => {
-        const email = new Email();
+      shouldThrowWithKeywordWhen(() => {
+        email.addRecipient({});
+      }, 'string', 'when called with not a string');
 
-        expect(() => {
-          email.addRecipient({});
-        }).toThrow(/string/ig);
-      });
+      shouldThrowWithKeywordWhen(() => {
+        email.addRecipient(' ');
+      }, 'whitespaces', 'when called with empty string');
 
-      test('with keyword "whitespaces" when called with empty string', () => {
-        const email = new Email();
-
-        expect(() => {
-          email.addRecipient(' ');
-        }).toThrow(/whitespaces/ig);
-      });
     });
 
   });
+
 });

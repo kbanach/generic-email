@@ -1,3 +1,5 @@
+const { shouldThrowWithKeywordWhen } = require('./testHelpers');
+
 const EmailAttachment = require('../src/EmailAttachment');
 
 describe('email attachment class', () => {
@@ -45,29 +47,21 @@ describe('email attachment class', () => {
         });
 
         describe('should throw an error', () => {
-            test('with keyword "empty" when called without parameters', () => {
-                const emailAtt = new EmailAttachment();
+            const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setFilename();
-                }).toThrow(/empty/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setFilename();
+            }, 'empty', 'when called without parameters');
 
-            test('with keyword "string" when called with not a string', () => {
-                const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setFilename({});
-                }).toThrow(/string/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setFilename({});
+            }, 'string', 'when called with not a string');
 
-            test('with keyword "whitespaces" when called with empty string', () => {
-                const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setFilename(' ');
-                }).toThrow(/whitespaces/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setFilename(' ');
+            }, 'whitespaces', 'when called with empty string');
         });
 
 
@@ -100,29 +94,22 @@ describe('email attachment class', () => {
 
 
         describe('should throw an error', () => {
-            test('with keyword "empty" when called without parameters', () => {
-                const emailAtt = new EmailAttachment();
+            const emailAtt = new EmailAttachment();
 
-                expect(() => {
+            shouldThrowWithKeywordWhen(() => {
                     emailAtt.setMimeType();
-                }).toThrow(/empty/ig);
-            });
+            }, 'empty', 'when called without parameters');
 
-            test('with keyword "string" when called with not a string', () => {
-                const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setMimeType({});
-                }).toThrow(/string/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setMimeType({});
+            }, 'string', 'when called with not a string');
 
-            test('with keyword "whitespaces" when called with empty string', () => {
-                const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setMimeType(' ');
-                }).toThrow(/whitespaces/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setMimeType(' ');
+            }, 'whitespaces', 'when called with empty string');
+
         });
 
 
@@ -166,22 +153,17 @@ describe('email attachment class', () => {
 
 
         describe('should throw an error', () => {
-            test('with keyword "empty" when called without parameters ', () => {
-                const emailAtt = new EmailAttachment();
+            const emailAtt = new EmailAttachment();
 
-                expect(() => {
-                    emailAtt.setContent();
-                }).toThrow(/empty/ig);
-            });
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setContent();
+            }, 'empty', 'when called without parameters');
 
 
-            test('with keyword "ivalid base64" when passed string is not a valid base64', () => {
-                const emailAtt = new EmailAttachment();
+            shouldThrowWithKeywordWhen(() => {
+                emailAtt.setContent('LOREM IPSUM');
+            }, 'ivalid base64', 'when passed string is not a valid base64');
 
-                expect(() => {
-                    emailAtt.setContent('LOREM IPSUM');
-                }).toThrow(/ivalid base64/ig);
-            });
         });
 
 
@@ -228,15 +210,19 @@ describe('email attachment class', () => {
             ).toBe('string');
         });
 
-        test('which called with unhandled content type throw an error with keyword "unknown"', () => {
-            const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8');
-            const emailAtt = new EmailAttachment();
 
-            emailAtt.setContent(VALID_INPUT);
+        describe('should throw an error', () => {
 
-            expect(() => {
+            shouldThrowWithKeywordWhen(() => {
+                const VALID_INPUT = Buffer.from('LOREM IPSUM', 'utf-8');
+                const emailAtt = new EmailAttachment();
+
+                emailAtt.setContent(VALID_INPUT);
+
                 emailAtt.getContentFormattedAs('TEST');
-            }).toThrow(/unknown/ig);
+            }, 'unknown', 'when called with unhandled content type');
+
         });
+
     })
 });

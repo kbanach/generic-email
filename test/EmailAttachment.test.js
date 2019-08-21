@@ -21,7 +21,7 @@ describe('email attachment class', () => {
         });
     });
 
-    describe('has method setFilename, which', () => {
+    describe('has method setFilename which', () => {
         test('is exposed', () => {
             const emailAtt = new EmailAttachment();
 
@@ -67,7 +67,7 @@ describe('email attachment class', () => {
 
     });
 
-    describe('has method setMimeType, which', () => {
+    describe('has method setMimeType which', () => {
         test('exposed', () => {
             const emailAtt = new EmailAttachment();
 
@@ -115,7 +115,7 @@ describe('email attachment class', () => {
 
     });
 
-    describe('has method setContent, which', () => {
+    describe('has method setContent which', () => {
         test('exposed', () => {
             const emailAtt = new EmailAttachment();
 

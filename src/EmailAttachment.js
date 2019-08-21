@@ -15,17 +15,7 @@ class EmailAttachment {
   }
 
   setFilename(filename) {
-    if (!filename) {
-      throw new Error('Filename can not be empty');
-    }
-
-    if (typeof filename !== 'string') {
-      throw new Error('Filename has to be a string');
-    }
-
-    if (!filename.trim()) {
-      throw new Error('Filename can not be whitespaces only');
-    }
+    this._throwWhenUnemptyString(filename, 'Filename');
 
     this._filename = filename;
 
@@ -37,17 +27,7 @@ class EmailAttachment {
   }
 
   setMimeType(mimeType) {
-    if (!mimeType) {
-      throw new Error('Mime type can not be empty');
-    }
-
-    if (typeof mimeType !== 'string') {
-      throw new Error('Mime type has to be a string');
-    }
-
-    if (!mimeType.trim()) {
-      throw new Error('Mime type can not be whitespaces only');
-    }
+    this._throwWhenUnemptyString(mimeType, 'Mime type');
 
     this._mime = mimeType;
 
@@ -90,6 +70,22 @@ class EmailAttachment {
     }
 
     throw new Error('Unknown type passed to content getter as formatter');
+  }
+
+  _throwWhenUnemptyString(str, msgPrefix) {
+    if (!str) {
+      throw new Error(`${msgPrefix} can not be empty`);
+    }
+
+    if (typeof str !== 'string') {
+      throw new Error(`${msgPrefix} has to be a string`);
+    }
+
+    if (!str.trim()) {
+      throw new Error(`${msgPrefix} can not be whitespaces only`);
+    }
+
+    return;
   }
 
   _setContentFromBuffer(contentAsBuffer) {

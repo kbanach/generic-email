@@ -23,15 +23,67 @@ describe('email envelope class', () => {
 
         email.addRecipient(VALID_INPUT);
 
-        expect(
-          email.getRecipients()
-        ).toEqual(expect.arrayContaining([ VALID_INPUT ]));
+        const firstRecipient = email.getRecipients()[0];
+
+        expect(firstRecipient).toEqual(VALID_INPUT);
+      });
+
+      test('be able to handle more than one email', () => {
+        const email = new EmailEnvelope();
+
+        const EMAIL1 = 'a@a.com';
+        const EMAIL2 = 'b@b.com';
+
+        email.addRecipient(EMAIL1);
+        email.addRecipient(EMAIL2);
+
+        expect(email.getRecipients()).toHaveLength(2);
+
+        expect(email.getRecipients()).toEqual(
+          expect.arrayContaining([EMAIL1, EMAIL2])
+        );
       });
 
       test('be chainable', () => {
         const email = new EmailEnvelope();
 
         expect(email.addRecipient(VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe('when used with second parameter', () => {
+      test('return first and second parameter with getter', () => {
+        const email = new EmailEnvelope();
+
+        const FIRST_PARAM = 'a@a.com';
+        const SECOND_PARAM = 'Abcd Xyz';
+
+        email.addRecipient(FIRST_PARAM, SECOND_PARAM);
+
+        const firstRecipient = email.getRecipients()[0];
+
+        expect(firstRecipient).toMatch(FIRST_PARAM);
+        expect(firstRecipient).toMatch(SECOND_PARAM);
+      });
+
+      test('do not confuse email and name pairs', () => {
+        const email = new EmailEnvelope();
+
+        const FIRST_EMAIL = 'a@a.com';
+        const FIRST_NAME = 'Abcd Xyz';
+        email.addRecipient(FIRST_EMAIL, FIRST_NAME);
+
+        const SECOND_EMAIL = 'b@b.com';
+        const SECOND_NAME = 'Bcde Xyz';
+        email.addRecipient(SECOND_EMAIL, SECOND_NAME);
+
+        const firstRecipient = email.getRecipients().find((recp) => { return recp.includes(FIRST_EMAIL) });
+        expect(firstRecipient).toMatch(FIRST_EMAIL);
+        expect(firstRecipient).toMatch(FIRST_NAME);
+
+        const secondRecipient = email.getRecipients().find((recp) => { return recp.includes(SECOND_EMAIL) });
+        expect(secondRecipient).toMatch(SECOND_EMAIL);
+        expect(secondRecipient).toMatch(SECOND_NAME);
       });
     });
 
@@ -44,13 +96,22 @@ describe('email envelope class', () => {
 
         expect(email.getRecipients()).toHaveLength(1);
       });
+
+      test('adding different address, but same name, should add both', () => {
+        const email = new EmailEnvelope();
+
+        email.addRecipient('a@a.com', 'Same Name');
+        email.addRecipient('b@b.com', 'Same Name');
+
+        expect(email.getRecipients()).toHaveLength(2);
+      });
     });
 
     describe('should throw an error', () => {
       const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
-            email.addRecipient();
+        email.addRecipient();
       }, 'empty', 'when called without parameters');
 
       shouldThrowWithKeywordWhen(() => {
@@ -91,7 +152,7 @@ describe('email envelope class', () => {
       const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
-            email.setSubject();
+        email.setSubject();
       }, 'empty', 'when called without parameters');
 
       shouldThrowWithKeywordWhen(() => {
@@ -145,7 +206,7 @@ describe('email envelope class', () => {
       const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
-            email.setSender();
+        email.setSender();
       }, 'empty', 'when called without parameters');
 
       shouldThrowWithKeywordWhen(() => {

@@ -7,22 +7,32 @@ const { throwWhenUnemptyString } = require('./helpers');
 class EmailEnvelope {
 
   constructor() {
-    this._recipients = new Set();
+    this._recipients = new Map();
 
     this._subject = '';
     this._senderLongName = '';
   }
 
-  addRecipient(recipient) {
-    throwWhenUnemptyString(recipient, 'Recipient');
+  addRecipient(recipientEmail, recipientLongName) {
+    const recipient = new EmailAddress();
 
-    this._recipients.add(recipient);
+    recipient.setAddress(recipientEmail);
+
+    if (recipientLongName) {
+      recipient.setLongName(recipientLongName);
+    }
+
+    this._recipients.set(recipientEmail, recipient);
 
     return this;
   }
 
   getRecipients() {
-    return Array.from(this._recipients);
+    return Array
+      .from(this._recipients.values())
+      .map((recipient) => {
+        return recipient.toString();
+      });
   }
 
   setSubject(subject) {

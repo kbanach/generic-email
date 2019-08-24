@@ -1,3 +1,5 @@
+const objectHash = require('object-hash');
+
 const { throwWhenUnemptyString } = require('./helpers');
 
 
@@ -15,6 +17,7 @@ class EmailAttachment {
     this._content = null;
     this._filename = null;
     this._mime = null;
+    this._cid = null;
   }
 
   setFilename(filename) {
@@ -63,6 +66,18 @@ class EmailAttachment {
     return this._content;
   }
 
+  setContentId(contentId) {
+    throwWhenUnemptyString(contentId, 'Content ID');
+
+    this._cid = contentId;
+
+    return this;
+  }
+
+  getContentId() {
+    return this._cid;
+  }
+
   getContentFormattedAs(format = CONTENT_TYPES.BUFFER) {
     if (format === CONTENT_TYPES.BUFFER) {
       return this.getContent();
@@ -75,6 +90,12 @@ class EmailAttachment {
     throw new Error('Unknown type passed to content getter as formatter');
   }
 
+  getChecksum() {
+    return objectHash({
+      content: this._content,
+      filename: this._filename,
+    });
+  }
 
   _setContentFromBuffer(contentAsBuffer) {
     this._content = contentAsBuffer;

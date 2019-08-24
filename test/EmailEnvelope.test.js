@@ -1,6 +1,7 @@
 const { shouldThrowWithKeywordWhen } = require('./testHelpers');
 
 const EmailEnvelope = require('../src/EmailEnvelope');
+const EmailAttachment = require('../src/EmailAttachment');
 
 
 describe('email envelope class', () => {
@@ -126,6 +127,89 @@ describe('email envelope class', () => {
 
   });
 
+  describe('has method addAttachment which', () => {
+    test('is exposed', () => {
+      const email = new EmailEnvelope();
+
+      expect(typeof email.addAttachment).toBe('function');
+    });
+
+    describe('when used with valid input should', () => {
+      const VALID_INPUT_BUFFER = Buffer.from('abc');
+      const VALID_INPUT_FILENAME = 'acb.zxy';
+      const VALID_INPUT_MIME = 'abc/xyz';
+      const VALID_INPUT_CID = 'id1';
+
+      const VALID_INPUT = [
+        VALID_INPUT_BUFFER,   // fileBuffer
+        VALID_INPUT_FILENAME, // fileName
+        VALID_INPUT_MIME,     // fileMimeType
+        // [OPTIONAL] fileContentId
+      ];
+
+      const EQUIVALENT_EMAIL_ATTACHMENT = new EmailAttachment()
+        .setContent(VALID_INPUT_BUFFER)
+        .setFilename(VALID_INPUT_FILENAME)
+        .setMimeType(VALID_INPUT_MIME);
+
+
+      const VALID_INPUT_WITH_CID = [
+        VALID_INPUT_BUFFER,   // fileBuffer
+        VALID_INPUT_FILENAME, // fileName
+        VALID_INPUT_MIME,     // fileMimeType
+        VALID_INPUT_CID,      // [OPTIONAL] fileContentId
+      ];
+
+      const EQUIVALENT_EMAIL_ATTACHMENT_WITH_CID = new EmailAttachment()
+        .setContent(VALID_INPUT_BUFFER)
+        .setFilename(VALID_INPUT_FILENAME)
+        .setMimeType(VALID_INPUT_MIME)
+        .setContentId(VALID_INPUT_CID);
+
+
+      test('return equivalent EmailAttachment with getter', () => {
+        const email = new EmailEnvelope();
+
+        email.addAttachment(...VALID_INPUT);
+
+        const attachment = email.getAttachments().find((att) => {
+          return att.getFilename() === VALID_INPUT_FILENAME;
+        });
+
+        expect(attachment).toMatchObject(EQUIVALENT_EMAIL_ATTACHMENT);
+      });
+
+
+      test('return equivalent EmailAttachment with optional content ID with getter', () => {
+        const email = new EmailEnvelope();
+
+        email.addAttachment(...VALID_INPUT_WITH_CID);
+
+        const attachment = email.getAttachments().find((att) => {
+          return att.getContentId() === VALID_INPUT_CID;
+        });
+
+        expect(attachment).toMatchObject(EQUIVALENT_EMAIL_ATTACHMENT_WITH_CID);
+      });
+
+
+      test('be chainable', () => {
+        const email = new EmailEnvelope();
+
+        expect(email.addAttachment(...VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe.skip('should throw an error', () => {
+      const email = new EmailEnvelope();
+
+      shouldThrowWithKeywordWhen(() => {
+        email.addRecipient();
+      }, 'empty', 'when called without parameters');
+    });
+
+  });
+
   describe('has method setSubject which', () => {
 
     describe('when used with valid input should', () => {
@@ -224,5 +308,6 @@ describe('email envelope class', () => {
 
     });
   });
+
 
 });

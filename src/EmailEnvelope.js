@@ -1,6 +1,7 @@
 const emailValidator = require('email-validator');
 
 const EmailAddress = require('./EmailAddress');
+const EmailAttachment = require('./EmailAttachment');
 
 const { throwWhenUnemptyString } = require('./helpers');
 
@@ -8,6 +9,7 @@ class EmailEnvelope {
 
   constructor() {
     this._recipients = new Map();
+    this._attachments = new Map();
 
     this._subject = '';
     this._senderLongName = '';
@@ -65,6 +67,28 @@ class EmailEnvelope {
     return this._senderEmail.toString();
   }
 
+  addAttachment(fileBuffer, fileName, fileMimeType, fileContentId) {
+    const attachment = new EmailAttachment()
+      .setContent(fileBuffer)
+      .setFilename(fileName)
+      .setMimeType(fileMimeType);
+
+    if (fileContentId) {
+      attachment.setContentId(fileContentId);
+    }
+
+    this._attachments.set(
+      attachment.getChecksum(),
+      attachment,
+    );
+
+    return this;
+  }
+
+  getAttachments() {
+    return Array
+      .from(this._attachments.values())
+  }
 }
 
 module.exports = EmailEnvelope;

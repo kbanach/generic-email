@@ -1,6 +1,6 @@
 {
   "name": "generic-email",
-  "version": "0.1.1-2",
+  "version": "0.1.1-3",
   "description": "Generic email plugin with useful exports to some email-sending services",
   "main": "index.js",
   "scripts": {

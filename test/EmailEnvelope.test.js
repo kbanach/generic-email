@@ -164,43 +164,4 @@ describe('email envelope class', () => {
     });
   });
 
-  describe.skip('has method setSenderLongName which', () => {
-
-    describe('when used with valid input should', () => {
-      const VALID_INPUT = 'Test Test';
-
-      test('return same value with getter', () => {
-        const email = new EmailEnvelope();
-
-        email.setSenderLongName(VALID_INPUT);
-
-        expect(
-          email.getSenderLongName()
-        ).toEqual(VALID_INPUT);
-      });
-
-      test('be chainable', () => {
-        const email = new EmailEnvelope();
-
-        expect(email.setSenderLongName(VALID_INPUT)).toEqual(email);
-      });
-    });
-
-    describe('should throw an error', () => {
-      const email = new EmailEnvelope();
-
-      shouldThrowWithKeywordWhen(() => {
-            email.setSenderLongName();
-      }, 'empty', 'when called without parameters');
-
-      shouldThrowWithKeywordWhen(() => {
-        email.setSenderLongName({});
-      }, 'string', 'when called with not a string');
-
-      shouldThrowWithKeywordWhen(() => {
-        email.setSenderLongName(' ');
-      }, 'whitespaces', 'when called with empty string');
-
-    });
-  });
 });

@@ -1,5 +1,7 @@
 const emailValidator = require('email-validator');
 
+const EmailAddress = require('./EmailAddress');
+
 const { throwWhenUnemptyString } = require('./helpers');
 
 class EmailEnvelope {
@@ -35,32 +37,22 @@ class EmailEnvelope {
     return this._subject;
   }
 
-  setSenderEmail(senderEmail) {
-    throwWhenUnemptyString(senderEmail, 'Sender email');
+  setSender(senderEmail, senderLongName) {
+    const sender = new EmailAddress();
 
-    if (!emailValidator.validate(senderEmail)) {
-      throw new Error('Sender email is invalid email address');
+    sender.setAddress(senderEmail);
+
+    if (senderLongName) {
+      sender.setLongName(senderLongName);
     }
 
-    this._senderEmail = senderEmail;
+    this._senderEmail = sender;
 
     return this;
   }
 
-  getSenderEmail() {
-    return this._senderEmail;
-  }
-
-  setSenderLongName(senderLongName) {
-    throwWhenUnemptyString(senderLongName);
-
-    this._senderLongName = senderLongName;
-
-    return this;
-  }
-
-  getSenderLongName() {
-    return this._senderLongName;
+  getSender() {
+    return this._senderEmail.toString();
   }
 
 }

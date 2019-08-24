@@ -105,7 +105,7 @@ describe('email envelope class', () => {
     });
   });
 
-  describe('has method setSenderEmail which', () => {
+  describe('has method setSender which', () => {
 
     describe('when used with valid input should', () => {
       const VALID_INPUT = 'a@a.com';
@@ -113,17 +113,31 @@ describe('email envelope class', () => {
       test('return same value with getter', () => {
         const email = new EmailEnvelope();
 
-        email.setSenderEmail(VALID_INPUT);
+        email.setSender(VALID_INPUT);
 
         expect(
-          email.getSenderEmail()
+          email.getSender()
         ).toEqual(VALID_INPUT);
       });
 
       test('be chainable', () => {
         const email = new EmailEnvelope();
 
-        expect(email.setSenderEmail(VALID_INPUT)).toEqual(email);
+        expect(email.setSender(VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe('when used with second parameter', () => {
+      test('return first and second parameter with getter', () => {
+        const email = new EmailEnvelope();
+
+        const FIRST_PARAM = 'a@a.com';
+        const SECOND_PARAM = 'Abcd Xyz';
+
+        email.setSender(FIRST_PARAM, SECOND_PARAM);
+
+        expect(email.getSender()).toMatch(FIRST_PARAM);
+        expect(email.getSender()).toMatch(SECOND_PARAM);
       });
     });
 
@@ -131,26 +145,26 @@ describe('email envelope class', () => {
       const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
-            email.setSenderEmail();
+            email.setSender();
       }, 'empty', 'when called without parameters');
 
       shouldThrowWithKeywordWhen(() => {
-        email.setSenderEmail({});
+        email.setSender({});
       }, 'string', 'when called with not a string');
 
       shouldThrowWithKeywordWhen(() => {
-        email.setSenderEmail(' ');
+        email.setSender(' ');
       }, 'whitespaces', 'when called with empty string');
 
 
       shouldThrowWithKeywordWhen(() => {
-        email.setSenderEmail('a@a');
-      }, 'invalid email address', 'when called with invalid email');
+        email.setSender('a@a');
+      }, 'invalid', 'when called with invalid email');
 
     });
   });
 
-  describe('has method setSenderLongName which', () => {
+  describe.skip('has method setSenderLongName which', () => {
 
     describe('when used with valid input should', () => {
       const VALID_INPUT = 'Test Test';

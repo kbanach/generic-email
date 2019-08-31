@@ -200,7 +200,7 @@ describe('email envelope class', () => {
       });
     });
 
-    describe.skip('should throw an error', () => {
+    describe('should throw an error', () => {
       const email = new EmailEnvelope();
 
       shouldThrowWithKeywordWhen(() => {
@@ -284,6 +284,19 @@ describe('email envelope class', () => {
         expect(email.getSender()).toMatch(FIRST_PARAM);
         expect(email.getSender()).toMatch(SECOND_PARAM);
       });
+
+
+      test('return first and second parameter with separate getters', () => {
+        const email = new EmailEnvelope();
+
+        const FIRST_PARAM = 'a@a.com';
+        const SECOND_PARAM = 'Abcd Xyz';
+
+        email.setSender(FIRST_PARAM, SECOND_PARAM);
+
+        expect(email.getSenderEmail()).toEqual(FIRST_PARAM);
+        expect(email.getSenderName()).toEqual(SECOND_PARAM);
+      });
     });
 
     describe('should throw an error', () => {
@@ -309,5 +322,78 @@ describe('email envelope class', () => {
     });
   });
 
+  describe('has formatters which', () => {
+    test('is exposed as static property', () => {
+      expect(typeof EmailEnvelope.FORMATTERS).toBe('object');
+    });
+
+    test('is exposed as instance property', () => {
+      const email = new EmailEnvelope();
+
+      expect(typeof email.FORMATTERS).toBe('object');
+    });
+
+    test('returns same result for static property and instance property', () => {
+      const email = new EmailEnvelope();
+
+      expect(email.FORMATTERS).toStrictEqual(EmailEnvelope.FORMATTERS);
+    });
+
+    test('returns MAIL_JET', () => {
+      const email = new EmailEnvelope();
+
+      expect(email.FORMATTERS).toHaveProperty('MAIL_JET');
+    });
+
+  });
+
+  describe('has method toFormattedObject which', () => {
+    test('is exposed', () => {
+      const email = new EmailEnvelope();
+      expect(typeof email.toFormattedObject).toBe('function');
+    });
+
+    describe('when used with valid input should', () => {
+      const VALID_INPUT = EmailEnvelope.FORMATTERS.MAIL_JET;
+
+      describe('return object containing previously set parameters', () => {
+        const email = new EmailEnvelope();
+
+        email
+          .setSender('sender@sender.com')
+          .addRecipient('recipient@recipient.com')
+          .setSubject('subject subject');
+
+
+        test('like sender', () => {
+          const FORMATTED_OBJECT = email.toFormattedObject(VALID_INPUT);
+          expect(JSON.stringify(FORMATTED_OBJECT)).toMatch('sender@sender.com');
+        });
+
+        test('like recipient', () => {
+          const FORMATTED_OBJECT = email.toFormattedObject(VALID_INPUT);
+          expect(JSON.stringify(FORMATTED_OBJECT)).toMatch('recipient@recipient.com');
+        });
+
+        test('like subject', () => {
+          const FORMATTED_OBJECT = email.toFormattedObject(VALID_INPUT);
+          expect(JSON.stringify(FORMATTED_OBJECT)).toMatch('subject subject');
+        });
+      });
+    });
+
+    describe('should throw an error', () => {
+      const email = new EmailEnvelope();
+
+      shouldThrowWithKeywordWhen(() => {
+        email.toFormattedObject();
+      }, 'formatter', 'when called without parameters');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.toFormattedObject({});
+      }, 'formatter', 'when called with not a valid formatter');
+
+    });
+  });
 
 });

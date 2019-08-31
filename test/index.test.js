@@ -16,4 +16,5 @@ describe('index file', () => {
         expect(index.EmailAttachment).toBeDefined();
         expect(() => { new index.EmailAttachment() }).not.toThrow();
     });
+
 });

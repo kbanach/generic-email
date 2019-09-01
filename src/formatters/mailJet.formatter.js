@@ -67,6 +67,9 @@ class MailJetFormatter extends IFormatter {
     const subject = emailEnvelope.getSubject();
     const from = MailJetFormatter.emailAddressToObject(emailEnvelope.getSender());
 
+    const html = emailEnvelope.getHtmlContent();
+    const txt = emailEnvelope.getTxtContent();
+
     const attachments = [
       ...MailJetFormatter
         ._filterNormalAttachments(emailEnvelope.getAttachments())
@@ -89,18 +92,37 @@ class MailJetFormatter extends IFormatter {
       // subject
       msg.Subject = subject;
 
+
       // sender
       msg.From = from;
+
 
       // recipient
       msg.To = [
         MailJetFormatter.emailAddressToObject(recp),
       ];
 
-      // attachments
-      msg.Attachments = attachments;
-      msg.InlinedAttachments = inlineAttachments;
 
+      // attachments
+      if (attachments) {
+        msg.Attachments = attachments;
+      }
+
+      if (inlineAttachments) {
+        msg.InlinedAttachments = inlineAttachments;
+      }
+
+
+      // email content
+      if (html) {
+        msg.HTMLPart = html;
+      }
+
+      if (txt) {
+        msg.TextPart = txt;
+      }
+
+      // push all above into messages
       Messages.push(msg);
     }
 

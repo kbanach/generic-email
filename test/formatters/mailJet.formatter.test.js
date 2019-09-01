@@ -41,6 +41,8 @@ describe('Mail Jet formatter', () => {
       const EMAIL = new EmailEnvelope()
         .setSender('sender@sender.com', 'Long Sender Name')
         .setSubject('subject subject')
+        .setHtmlContent('<h1>HTML content</h1>')
+        .setTxtContent('Plain text content')
         .addRecipient('recipient1@recipient1.com', 'Recipient1 Long Name')
         .addRecipient('recipient2@recipient2.com', 'Recipient2 Long Name')
         .addAttachment(Buffer.from('abc', 'utf-8'), 'filename.txt', 'text/plain')
@@ -60,8 +62,8 @@ describe('Mail Jet formatter', () => {
               }
             ],
             "Subject": "subject subject",
-            // "TextPart": "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-            // "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!",
+            "TextPart": "Plain text content",
+            "HTMLPart": "<h1>HTML content</h1>",
             "Attachments": [
               {
                 "ContentType": "text/plain",
@@ -89,8 +91,8 @@ describe('Mail Jet formatter', () => {
               }
             ],
             "Subject": "subject subject",
-            // "TextPart": "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-            // "HTMLPart": "<h3>Dear passenger 1, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!</h3><br />May the delivery force be with you!",
+            "TextPart": "Plain text content",
+            "HTMLPart": "<h1>HTML content</h1>",
             "Attachments": [
               {
                 "ContentType": "text/plain",

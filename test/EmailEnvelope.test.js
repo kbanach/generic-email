@@ -252,6 +252,89 @@ describe('email envelope class', () => {
     });
   });
 
+
+  describe('has method setHtmlContent which', () => {
+
+    describe('when used with valid input should', () => {
+      const VALID_INPUT = '<h1>test content</h1>';
+
+      test('return same value with getter', () => {
+        const email = new EmailEnvelope();
+
+        email.setHtmlContent(VALID_INPUT);
+
+        expect(
+          email.getHtmlContent()
+        ).toEqual(VALID_INPUT);
+      });
+
+      test('be chainable', () => {
+        const email = new EmailEnvelope();
+
+        expect(email.setHtmlContent(VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe('should throw an error', () => {
+      const email = new EmailEnvelope();
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setHtmlContent();
+      }, 'empty', 'when called without parameters');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setHtmlContent({});
+      }, 'string', 'when called with not a string');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setHtmlContent(' ');
+      }, 'whitespaces', 'when called with empty string');
+
+    });
+  });
+
+
+  describe('has method setTxtContent which', () => {
+
+    describe('when used with valid input should', () => {
+      const VALID_INPUT = '<h1>test content</h1>';
+
+      test('return same value with getter', () => {
+        const email = new EmailEnvelope();
+
+        email.setTxtContent(VALID_INPUT);
+
+        expect(
+          email.getTxtContent()
+        ).toEqual(VALID_INPUT);
+      });
+
+      test('be chainable', () => {
+        const email = new EmailEnvelope();
+
+        expect(email.setTxtContent(VALID_INPUT)).toEqual(email);
+      });
+    });
+
+    describe('should throw an error', () => {
+      const email = new EmailEnvelope();
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setTxtContent();
+      }, 'empty', 'when called without parameters');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setTxtContent({});
+      }, 'string', 'when called with not a string');
+
+      shouldThrowWithKeywordWhen(() => {
+        email.setTxtContent(' ');
+      }, 'whitespaces', 'when called with empty string');
+
+    });
+  });
+
+
   describe('has method setSender which', () => {
 
     describe('when used with valid input should', () => {

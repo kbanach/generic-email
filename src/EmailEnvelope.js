@@ -28,7 +28,9 @@ class EmailEnvelope {
     this._attachments = new Map();
 
     this._subject = '';
-    this._senderLongName = '';
+    this._htmlContent = '';
+    this._txtContent = '';
+    this._senderEmail = null;
   }
 
   addRecipient(recipientEmail, recipientLongName) {
@@ -100,6 +102,30 @@ class EmailEnvelope {
   getAttachments() {
     return Array
       .from(this._attachments.values())
+  }
+
+  setHtmlContent(html) {
+    throwWhenUnemptyString(html, 'HTML content');
+
+    this._htmlContent = html;
+
+    return this;
+  }
+
+  getHtmlContent() {
+    return this._htmlContent;
+  }
+
+  setTxtContent(html) {
+    throwWhenUnemptyString(html, 'Plain text content');
+
+    this._txtContent = html;
+
+    return this;
+  }
+
+  getTxtContent() {
+    return this._txtContent;
   }
 
   toFormattedObject(formatter) {

@@ -46,11 +46,7 @@ class EmailEnvelope {
   }
 
   getRecipients() {
-    return Array
-      .from(this._recipients.values())
-      .map((recipient) => {
-        return recipient.toString();
-      });
+    return Array.from(this._recipients.values());
   }
 
   setSubject(subject) {
@@ -80,15 +76,7 @@ class EmailEnvelope {
   }
 
   getSender() {
-    return this._senderEmail.toString();
-  }
-
-  getSenderEmail() {
-    return this._senderEmail.getAddress();
-  }
-
-  getSenderName() {
-    return this._senderEmail.getLongName();
+    return this._senderEmail;
   }
 
   addAttachment(fileBuffer, fileName, fileMimeType, fileContentId) {

@@ -24,7 +24,7 @@ describe('email envelope class', () => {
 
         email.addRecipient(VALID_INPUT);
 
-        const firstRecipient = email.getRecipients()[0];
+        const firstRecipient = email.getRecipients()[0].toString();
 
         expect(firstRecipient).toEqual(VALID_INPUT);
       });
@@ -40,7 +40,9 @@ describe('email envelope class', () => {
 
         expect(email.getRecipients()).toHaveLength(2);
 
-        expect(email.getRecipients()).toEqual(
+        const stringifiedRecipients = email.getRecipients().map((recp) => recp.toString());
+
+        expect(stringifiedRecipients).toEqual(
           expect.arrayContaining([EMAIL1, EMAIL2])
         );
       });
@@ -61,7 +63,7 @@ describe('email envelope class', () => {
 
         email.addRecipient(FIRST_PARAM, SECOND_PARAM);
 
-        const firstRecipient = email.getRecipients()[0];
+        const firstRecipient = email.getRecipients()[0].toString();
 
         expect(firstRecipient).toMatch(FIRST_PARAM);
         expect(firstRecipient).toMatch(SECOND_PARAM);
@@ -78,13 +80,13 @@ describe('email envelope class', () => {
         const SECOND_NAME = 'Bcde Xyz';
         email.addRecipient(SECOND_EMAIL, SECOND_NAME);
 
-        const firstRecipient = email.getRecipients().find((recp) => { return recp.includes(FIRST_EMAIL) });
-        expect(firstRecipient).toMatch(FIRST_EMAIL);
-        expect(firstRecipient).toMatch(FIRST_NAME);
+        const firstRecipient = email.getRecipients().find((recp) => { return recp.toString().includes(FIRST_EMAIL) });
+        expect(firstRecipient.getAddress()).toMatch(FIRST_EMAIL);
+        expect(firstRecipient.getLongName()).toMatch(FIRST_NAME);
 
-        const secondRecipient = email.getRecipients().find((recp) => { return recp.includes(SECOND_EMAIL) });
-        expect(secondRecipient).toMatch(SECOND_EMAIL);
-        expect(secondRecipient).toMatch(SECOND_NAME);
+        const secondRecipient = email.getRecipients().find((recp) => { return recp.toString().includes(SECOND_EMAIL) });
+        expect(secondRecipient.getAddress()).toMatch(SECOND_EMAIL);
+        expect(secondRecipient.getLongName()).toMatch(SECOND_NAME);
       });
     });
 
@@ -261,7 +263,7 @@ describe('email envelope class', () => {
         email.setSender(VALID_INPUT);
 
         expect(
-          email.getSender()
+          email.getSender().toString()
         ).toEqual(VALID_INPUT);
       });
 
@@ -281,21 +283,8 @@ describe('email envelope class', () => {
 
         email.setSender(FIRST_PARAM, SECOND_PARAM);
 
-        expect(email.getSender()).toMatch(FIRST_PARAM);
-        expect(email.getSender()).toMatch(SECOND_PARAM);
-      });
-
-
-      test('return first and second parameter with separate getters', () => {
-        const email = new EmailEnvelope();
-
-        const FIRST_PARAM = 'a@a.com';
-        const SECOND_PARAM = 'Abcd Xyz';
-
-        email.setSender(FIRST_PARAM, SECOND_PARAM);
-
-        expect(email.getSenderEmail()).toEqual(FIRST_PARAM);
-        expect(email.getSenderName()).toEqual(SECOND_PARAM);
+        expect(email.getSender().getAddress()).toMatch(FIRST_PARAM);
+        expect(email.getSender().getLongName()).toMatch(SECOND_PARAM);
       });
     });
 

@@ -2,7 +2,6 @@ const objectHash = require('object-hash');
 
 const { throwWhenUnemptyString } = require('./helpers');
 
-
 const CONTENT_TYPES = {
   BASE64: 'base64',
   BUFFER: 'buffer',

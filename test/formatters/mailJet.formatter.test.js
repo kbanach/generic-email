@@ -19,12 +19,25 @@ describe('Mail Jet formatter', () => {
     expect(MailJetFormatter.DEFAULT_API_VERSION).toBe('3.1');
   });
 
-  describe('has static method emailEnvelopeToObject', () => {
-    test('exposed', () => {
+  describe('has static method emailEnvelopeToObject which', () => {
+    test('is exposed', () => {
       expect(typeof MailJetFormatter.emailEnvelopeToObject).toBe('function');
     });
 
-    test('which maps input email envelope fields', () => {
+    test('throws an error when given email envelope has no recipients', () => {
+      const EMAIL = new EmailEnvelope()
+      .setSender('sender@sender.com', 'Long Sender Name')
+      .setSubject('subject subject')
+      .addAttachment(Buffer.from('abc', 'utf-8'), 'filename.txt', 'text/plain')
+      .addAttachment(Buffer.from('xyz', 'utf-8'), 'inline.txt', 'text/plain', 'cid1');
+
+
+      expect(() => {
+        MailJetFormatter.emailEnvelopeToObject(EMAIL);
+      }).toThrow(/recipient/ig);
+    });
+
+    test('maps input email envelope fields', () => {
       const EMAIL = new EmailEnvelope()
         .setSender('sender@sender.com', 'Long Sender Name')
         .setSubject('subject subject')

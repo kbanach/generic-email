@@ -263,7 +263,7 @@ describe('email envelope class', () => {
         email.setSender(VALID_INPUT);
 
         expect(
-          email.getSender().toString()
+          email.getSender().getAddress()
         ).toEqual(VALID_INPUT);
       });
 

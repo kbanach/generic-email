@@ -252,7 +252,6 @@ describe('email envelope class', () => {
     });
   });
 
-
   describe('has method setHtmlContent which', () => {
 
     describe('when used with valid input should', () => {
@@ -293,7 +292,6 @@ describe('email envelope class', () => {
     });
   });
 
-
   describe('has method setTxtContent which', () => {
 
     describe('when used with valid input should', () => {
@@ -333,7 +331,6 @@ describe('email envelope class', () => {
 
     });
   });
-
 
   describe('has method setSender which', () => {
 

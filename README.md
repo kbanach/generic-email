@@ -1,5 +1,7 @@
 # Generic Email
 
+[![Build Status](https://travis-ci.com/kbanach/generic-email.svg?branch=master)](https://travis-ci.com/kbanach/generic-email)
+
 Email envelope with formatter for MailJet (I hope I'll have an opportunity to introduce more).
 
 Entire package contains three parts:
